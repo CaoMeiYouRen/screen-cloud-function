@@ -34,6 +34,7 @@ const tsupOptions: Options = {
     clean: false,
     dts: false,
     minify: false, // 缩小输出
+    treeshake: true, // 摇树优化
     shims: true, // 注入 cjs 和 esm 填充代码，解决 import.meta.url 和 __dirname 的兼容问题
     esbuildOptions(options, context) { // 设置编码格式
         options.charset = 'utf8'
@@ -41,6 +42,9 @@ const tsupOptions: Options = {
     // external: [], // 排除的依赖项
     // noExternal: [/(.*)/], // 将依赖打包到一个文件中
     // bundle: true,
+    env: {
+        NODE_ENV: 'production',
+    },
 }
 
 const cloudflareOptions: Options = {
