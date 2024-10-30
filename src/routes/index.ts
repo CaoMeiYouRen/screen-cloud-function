@@ -26,7 +26,6 @@ app.get('/screenshot', async (c) => {
             headless: chromium.headless,
             // headless: true,
             // args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-infobars', '--disable-gpu', '--window-position=0,0', '--ignore-certificate-errors', '--ignore-certificate-errors-spki-list'],
-            // executablePath: path.join(__dirname, 'node_modules', '.cache', 'puppeteer', 'chrome'),
         }
         : {
             defaultViewport,
@@ -44,13 +43,8 @@ app.get('/screenshot', async (c) => {
     }
     const page = await browser.newPage()
     logger.info('正在打开页面……')
-    // 设置浏览器视窗
-    // page.setViewport({
-    //     width: 1920,
-    //     height: 1080,
-    // })
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30 * 1000 })
-    await page.waitForSelector('.match-module-container > div > div > div.svg > svg')
+    // await page.waitForSelector('.match-module-container > div > div > div.svg > svg')
 
     const screenshot = await page.screenshot()
     logger.info('截图成功')
