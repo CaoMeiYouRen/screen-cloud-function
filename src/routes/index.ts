@@ -10,13 +10,16 @@ const app = new Hono<{ Bindings: Bindings }>()
 let browser: Browser = null
 
 app.get('/screenshot', async (c) => {
-    const { url } = c.req.query()
+    const { url, width, height, selector } = c.req.query()
     if (!url) {
         return c.text('URL is required', 400)
     }
+    // 解析分辨率设置
+    const viewportWidth = width ? parseInt(width, 10) : 1920
+    const viewportHeight = height ? parseInt(height, 10) : 1080
     const defaultViewport = {
-        width: 1920,
-        height: 1080,
+        width: viewportWidth,
+        height: viewportHeight,
     }
     const options: PuppeteerLaunchOptions = __PROD__
         ? {
@@ -44,9 +47,20 @@ app.get('/screenshot', async (c) => {
     const page = await browser.newPage()
     logger.info('正在打开页面……')
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30 * 1000 })
-    // await page.waitForSelector('.match-module-container > div > div > div.svg > svg')
 
-    const screenshot = await page.screenshot()
+    let screenshot: Uint8Array
+    if (selector) {
+        // 截取指定区间的截图
+        const element = await page.$(selector)
+        if (!element) {
+            return c.text('Selector not found', 404)
+        }
+        screenshot = await element.screenshot()
+    } else {
+        // 截取整个页面的截图
+        screenshot = await page.screenshot()
+    }
+
     logger.info('截图成功')
     if (__DEV__) {
         await browser.close()
