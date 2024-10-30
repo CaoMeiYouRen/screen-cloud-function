@@ -14,6 +14,8 @@ app.get('/screenshot', async (c) => {
     if (!url) {
         return c.text('URL is required', 400)
     }
+    // TODO 增加图片缓存
+
     // 解析分辨率设置
     const viewportWidth = width ? parseInt(width, 10) : 1920
     const viewportHeight = height ? parseInt(height, 10) : 1080
