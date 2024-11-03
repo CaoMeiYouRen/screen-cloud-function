@@ -38,7 +38,8 @@ app.get('/screenshot', async (c) => {
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-infobars', '--disable-gpu', '--window-position=0,0', '--ignore-certificate-errors', '--ignore-certificate-errors-spki-list'],
             executablePath: puppeteer.executablePath('chrome'),
         }
-    if (!browser) {
+
+    if (!browser || !browser.connected) {
         browser = await puppeteer.launch(options)
         browser.on('disconnected', () => {
             logger.info('浏览器断开连接')
@@ -46,6 +47,7 @@ app.get('/screenshot', async (c) => {
             browser = null
         })
     }
+
     const page = await browser.newPage()
     logger.info('正在打开页面……')
     await page.goto(url, { waitUntil: 'networkidle2', timeout: 30 * 1000 })
