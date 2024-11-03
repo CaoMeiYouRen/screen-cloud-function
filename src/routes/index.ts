@@ -50,7 +50,7 @@ app.get('/screenshot', async (c) => {
 
     const page = await browser.newPage()
     logger.info('正在打开页面……')
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30 * 1000 })
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 45 * 1000 })
 
     let screenshot: Uint8Array
     if (selector) {
