@@ -29,11 +29,13 @@
 
 - node >=18
 
-## 🚀 安装
+## 🚀 部署
 
-```sh
-npm install
-```
+### Vercel 部署（推荐）
+
+点击以下按钮一键部署到 Vercel。
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FCaoMeiYouRen%2Fscreen-cloud-function.git)
 
 ## 👨‍💻 使用
 
